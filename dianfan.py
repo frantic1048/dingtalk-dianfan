@@ -1,6 +1,7 @@
 import os
 from datetime import datetime
 from datetime import timedelta
+import math
 
 import chinese_calendar
 import requests
@@ -22,6 +23,10 @@ def get_next_workday(date: datetime) -> datetime:
     return date
 
 
+def get_end_month_of_season(date: datetime) -> int:
+    return math.ceil(date.month / 3) * 3
+
+
 def get_remaining_workday_count_in_month(date: datetime) -> int:
     count = 0
     start_month = date.month
@@ -32,9 +37,20 @@ def get_remaining_workday_count_in_month(date: datetime) -> int:
     return count
 
 
+def get_remaining_workday_count_in_season(date: datetime) -> int:
+    count = 0
+    start_month = date.month
+    end_month = get_end_month_of_season(date)
+    while date.month <= end_month:
+        if chinese_calendar.is_workday(date):
+            count += 1
+        date = get_next_workday(date)
+    return count
+
+
 def get_remaining_dianfan_count(date: datetime) -> int:
     dianfan_target_date = get_next_workday(date)
-    return get_remaining_workday_count_in_month(dianfan_target_date)
+    return get_remaining_workday_count_in_season(dianfan_target_date)
 
 
 def main():
@@ -48,7 +64,7 @@ def main():
     content = f"点饭{get_postfix(today)}"
     remaining_dianfan_count = get_remaining_dianfan_count(today)
     if remaining_dianfan_count < 5:
-        content += f"\n本月还能点{remaining_dianfan_count}次饭\n记得设零点的闹钟抢面包哟"
+        content += f"\n本季度还能点{remaining_dianfan_count}次饭\n记得设零点的闹钟抢面包哟"
 
     url = f"https://oapi.dingtalk.com/robot/send?access_token={os.getenv('DINGTALK_ACCESS_TOKEN')}"
     response = requests.post(
