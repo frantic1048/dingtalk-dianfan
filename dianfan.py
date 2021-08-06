@@ -76,6 +76,8 @@ def main():
         },
     )
 
+    # success: b'{"errcode":0,"errmsg":"ok"}'
+    # TODO: if errorcode != 0, exit with non-zero error code and make CI job fail
     print(response.content)
 
 
