@@ -6,7 +6,7 @@
 
 本项目源自 [whtsky/dingtalk-dianfan](https://github.com/whtsky/dingtalk-dianfan)，主要调整有：
 
-- frantic1048/dingtalk-dianfan#1 将剩余点饭次数从按月调整到了按季度计算（适应政策变化）
+- [#1](https://github.com/frantic1048/dingtalk-dianfan/pull/1) 将剩余点饭次数从按月调整到了按季度计算（适应政策变化）
 
 ## 快速开始
 
@@ -34,4 +34,4 @@ poetry run pytest
 
 ## 部署
 
-参考 [./github/workflows/cron.yaml]()
+参考 [.github/workflows/cron.yaml](.github/workflows/cron.yaml)
